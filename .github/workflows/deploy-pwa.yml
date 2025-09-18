@@ -1,0 +1,58 @@
+name: 🚀 Deploy Dis Maman PWA
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: dismaman-complete/frontend/package-lock.json
+        
+    - name: 📱 Install Dependencies
+      run: |
+        cd dismaman-complete/frontend
+        npm ci
+        
+    - name: 🔐 Create Environment File
+      run: |
+        cd dismaman-complete/frontend
+        echo "EXPO_PUBLIC_BACKEND_URL=${{ secrets.EXPO_PUBLIC_BACKEND_URL }}" > .env
+        echo "EXPO_PUBLIC_API_KEY=${{ secrets.EXPO_PUBLIC_API_KEY }}" >> .env
+        echo "EXPO_PUBLIC_APP_ENV=production" >> .env
+        
+    - name: 🏗️ Build PWA
+      run: |
+        cd dismaman-complete/frontend
+        npx expo export --platform web
+        
+    - name: 📄 Setup GitHub Pages (no custom domain)
+      run: |
+        cd dismaman-complete/frontend/dist
+        echo "PWA will be deployed to GitHub Pages without custom domain redirect"
+        
+    - name: 🚀 Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dismaman-complete/frontend/dist
+        
+    - name: ✅ Deployment Summary
+      run: |
+        echo "🎉 PWA deployed successfully!"
+        echo "📱 URL: https://amarareunion.github.io/dismaman-pwa"
+        echo "🔧 Built with secrets from GitHub
