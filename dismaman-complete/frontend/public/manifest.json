@@ -1,0 +1,68 @@
+{
+  "name": "Dis Maman ! - Assistant IA pour enfants",
+  "short_name": "DisMaman",
+  "description": "Assistant IA conversationnel pour enfants - Questions et réponses pédagogiques personnalisées par âge et genre",
+  "start_url": "/dismaman-pwa/",
+  "display": "standalone",
+  "background_color": "#667eea",
+  "theme_color": "#667eea",
+  "orientation": "portrait",
+  "lang": "fr",
+  "scope": "/dismaman-pwa/",
+  "categories": ["education", "kids", "ai", "assistant"],
+  "icons": [
+    {
+      "src": "./assets/images/icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/images/adaptive-icon.png", 
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./assets/images/favicon.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./assets/images/splash-image.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "shortcuts": [
+    {
+      "name": "Poser une question",
+      "short_name": "Question",
+      "description": "Poser directement une question à l'assistant IA",
+      "url": "/?action=question",
+      "icons": [
+        {
+          "src": "./assets/images/icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Historique",
+      "short_name": "Historique", 
+      "description": "Voir l'historique des conversations",
+      "url": "/history",
+      "icons": [
+        {
+          "src": "./assets/images/icon.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
