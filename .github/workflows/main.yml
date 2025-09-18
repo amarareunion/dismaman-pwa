@@ -20,26 +20,29 @@ jobs:
       with:
         node-version: '18'
         
+    - name: 🔧 Install Global Expo CLI
+      run: npm install -g @expo/cli@latest
+        
     - name: 📱 Install Dependencies
       run: |
-        cd frontend
+        cd dismaman-complete/frontend
         npm install
         
     - name: 🔐 Create Environment File
       run: |
-        cd frontend
+        cd dismaman-complete/frontend
         echo "EXPO_PUBLIC_BACKEND_URL=${{ secrets.EXPO_PUBLIC_BACKEND_URL }}" > .env
         echo "EXPO_PUBLIC_API_KEY=${{ secrets.EXPO_PUBLIC_API_KEY }}" >> .env
         echo "EXPO_PUBLIC_APP_ENV=production" >> .env
         
     - name: 🏗️ Build PWA
       run: |
-        cd frontend
+        cd dismaman-complete/frontend
         npx expo export --platform web
         
     - name: 📄 Create CNAME file
       run: |
-        cd frontend/dist
+        cd dismaman-complete/frontend/dist
         echo "dismaman.com" > CNAME
         
     - name: 🚀 Deploy to GitHub Pages
@@ -47,7 +50,7 @@ jobs:
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./frontend/dist
+        publish_dir: ./dismaman-complete/frontend/dist
         
     - name: ✅ Deployment Summary
       run: |
