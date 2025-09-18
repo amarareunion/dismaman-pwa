@@ -39,11 +39,6 @@ jobs:
         cd dismaman-complete/frontend
         npx expo export --platform web
         
-    - name: 📄 Setup GitHub Pages (no custom domain)
-      run: |
-        cd dismaman-complete/frontend/dist
-        echo "PWA will be deployed to GitHub Pages without custom domain redirect"
-        
     - name: 🚀 Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
@@ -53,6 +48,6 @@ jobs:
         
     - name: ✅ Deployment Summary
       run: |
-        echo "🎉 PWA deployed successfully!"
-        echo "📱 URL: https://amarareunion.github.io/dismaman-pwa"
-        echo "🔧 Built with secrets from GitHub
+        echo "PWA deployed successfully!"
+        echo "URL: https://amarareunion.github.io/dismaman-pwa"
+        echo "Built with GitHub Actions"
