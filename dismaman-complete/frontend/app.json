@@ -40,15 +40,16 @@
       "name": "Dis Maman !",
       "shortName": "DisMaman",
       "lang": "fr",
-      "scope": "/",
+      "scope": "/dismaman-pwa/",
       "themeColor": "#667eea",
       "backgroundColor": "#667eea",
       "display": "standalone",
       "orientation": "portrait",
-      "startUrl": "/",
+      "startUrl": "/dismaman-pwa/",
       "description": "Assistant IA conversationnel pour enfants - Questions et réponses pédagogiques personnalisées",
       "categories": ["education", "kids", "ai"],
       "preferRelatedApplications": false
+      "publicPath": "/dismaman-pwa/",
     },
     "plugins": [
       "expo-router",
