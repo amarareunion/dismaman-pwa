@@ -1,0 +1,38 @@
+# .gitignore pour version web publique (dismaman-website)
+
+# Fichiers sensibles à NE PAS publier
+.env
+.env.local
+.env.production
+.env.development
+
+# Dossiers avec potentielles clés
+secrets/
+private/
+config/private/
+
+# Fichiers de build avec clés
+build/
+dist/
+
+# Logs pouvant contenir des infos sensibles  
+*.log
+logs/
+
+# Fichiers de cache
+.expo/
+node_modules/
+.DS_Store
+
+# Fichiers spécifiques mobile (à garder privés)
+eas.json
+app.json
+
+# Ne pas publier les certificats
+*.p12
+*.cer
+*.mobileprovision
+
+# Fichiers de test avec vraies données
+*test*real*
+*prod*data*

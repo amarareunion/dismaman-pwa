@@ -1,0 +1,69 @@
+{
+  "expo": {
+    "name": "Dis Maman !",
+    "slug": "dis-maman",
+    "version": "1.0.5",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "dis-maman",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": false,
+    "splash": {
+      "image": "./assets/images/splash-image.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#667eea"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.mara.dismaman",
+      "buildNumber": "25",
+      "supportsTablet": true,
+      "jsEngine": "jsc",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      },
+      "versionCode": 25,
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png",
+      "name": "Dis Maman !",
+      "shortName": "DisMaman",
+      "lang": "fr",
+      "scope": "/",
+      "themeColor": "#667eea",
+      "backgroundColor": "#667eea",
+      "display": "standalone",
+      "orientation": "portrait",
+      "startUrl": "/",
+      "description": "Assistant IA conversationnel pour enfants - Questions et réponses pédagogiques personnalisées",
+      "categories": ["education", "kids", "ai"],
+      "preferRelatedApplications": false
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-image.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#667eea"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

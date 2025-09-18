@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Dis Maman ! Web",
+    "slug": "dis-maman-web",
+    "owner": "louisperpere",
+    "version": "1.0.5",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "dis-maman",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": false,
+    "splash": {
+      "image": "./assets/images/splash-image.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#667eea"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png",
+      "name": "Dis Maman !",
+      "shortName": "DisMaman",
+      "lang": "fr",
+      "scope": "/",
+      "themeColor": "#667eea",
+      "backgroundColor": "#667eea",
+      "display": "standalone",
+      "orientation": "portrait",
+      "startUrl": "/",
+      "description": "Assistant IA conversationnel pour enfants - Questions et réponses pédagogiques personnalisées",
+      "categories": ["education", "kids", "ai"],
+      "preferRelatedApplications": false
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-system-ui",
+        {
+          "userInterfaceStyle": "automatic"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
