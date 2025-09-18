@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Dis Maman !",
+    "slug": "dis-maman",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./frontend/assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./frontend/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#667eea"
+    },
+    "ios": {
+      "bundleIdentifier": "com.mara.dismaman",
+      "buildNumber": "1",
+      "supportsTablet": true,
+      "requireFullScreen": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSMicrophoneUsageDescription": "Cette app utilise le microphone pour la synthèse vocale.",
+        "NSSpeechRecognitionUsageDescription": "Cette app utilise la reconnaissance vocale pour améliorer l'expérience utilisateur."
+      }
+    },
+    "android": {
+      "package": "com.mara.dismaman",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./frontend/assets/adaptive-icon.png",
+        "backgroundColor": "#667eea"
+      }
+    },
+    "web": {
+      "favicon": "./frontend/assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "votre-project-id-expo"
+      }
+    }
+  }
+}
