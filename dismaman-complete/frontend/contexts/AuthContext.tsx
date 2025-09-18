@@ -4,25 +4,6 @@ import axios from 'axios';
 import BackendKeepAlive from '../services/BackendKeepAlive';
 
 const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://dismaman-app-1.preview.emergentagent.com';
-
-// Add timeout for web
-const api = axios.create({
-  baseURL: BACKEND_URL + '/api',
-  timeout: 5000,  // 5 secondes max
-});
-
-// Add error handling for web initialization
-const initializeAuth = async () => {
-  try {
-    setIsLoading(true);
-    // ... existing code ...
-  } catch (error) {
-    console.warn('Auth initialization failed:', error);
-    setIsLoading(false);  // IMPORTANT: Stop loading even on error
-    setUser(null);
-    setIsAuthenticated(false);
-  }
-};
 console.log('🌐 Backend URL configuré:', BACKEND_URL);
 
 interface User {
@@ -83,6 +64,71 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     forceLogoutFlag: 0,
   });
 
+  // Initialize auth state on app start
+  const initializeAuth = async () => {
+    try {
+      console.log('🔄 Initializing authentication...');
+      
+      const [accessToken, refreshToken] = await Promise.all([
+        AsyncStorage.getItem('access_token'),
+        AsyncStorage.getItem('refresh_token'),
+      ]);
+
+      console.log('📱 Tokens found:', { hasAccess: !!accessToken, hasRefresh: !!refreshToken });
+
+      if (accessToken && refreshToken) {
+        setAuthState(prev => ({
+          ...prev,
+          accessToken,
+          refreshToken,
+        }));
+
+        try {
+          // Extended verification timeout for cold start
+          console.log('🔐 Verifying token...');
+          const response = await Promise.race([
+            api.get('/auth/me', {
+              headers: { Authorization: `Bearer ${accessToken}` },
+              timeout: 45000 // Extended to 45s for cold start
+            }),
+            new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Auth verification timeout')), 45000)
+            )
+          ]);
+
+          console.log('✅ Token valid, user authenticated');
+          setAuthState(prev => ({
+            ...prev,
+            user: response.data,
+            isAuthenticated: true,
+            isLoading: false,
+          }));
+        } catch (error) {
+          console.log('❌ Token invalid, clearing auth data');
+          await clearAuthData();
+        }
+      } else {
+        console.log('📭 No tokens found, user needs to login');
+        setAuthState(prev => ({
+          ...prev,
+          isLoading: false,
+          isAuthenticated: false,
+        }));
+      }
+    } catch (error) {
+      console.error('💥 Auth initialization error:', error);
+      // CRITICAL: Always ensure loading is false
+      setAuthState({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false, // FORCE COMPLETE
+        accessToken: null,
+        refreshToken: null,
+        forceLogoutFlag: 0,
+      });
+    }
+  };
+
   // Setup axios interceptors
   useEffect(() => {
     const requestInterceptor = api.interceptors.request.use(
@@ -133,7 +179,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
   }, []); // Remove dependency on authState.accessToken to avoid recreation
 
-  // Initialize auth state on app start
   useEffect(() => {
     console.log('🔐 AuthProvider initializing...');
     
@@ -195,6 +240,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isLoading: false, // Changed to false so app shows login screen
         accessToken: null,
         refreshToken: null,
+        forceLogoutFlag: 0,
       });
       
       console.log('✅ Auth reset complete - ready for login');
@@ -207,69 +253,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isLoading: false,
         accessToken: null,
         refreshToken: null,
-      });
-    }
-  };
-
-  const initializeAuth = async () => {
-    try {
-      console.log('🔄 Initializing authentication...');
-      
-      const [accessToken, refreshToken] = await Promise.all([
-        AsyncStorage.getItem('access_token'),
-        AsyncStorage.getItem('refresh_token'),
-      ]);
-
-      console.log('📱 Tokens found:', { hasAccess: !!accessToken, hasRefresh: !!refreshToken });
-
-      if (accessToken && refreshToken) {
-        setAuthState(prev => ({
-          ...prev,
-          accessToken,
-          refreshToken,
-        }));
-
-        try {
-          // Extended verification timeout for cold start
-          console.log('🔐 Verifying token...');
-          const response = await Promise.race([
-            api.get('/auth/me', {
-              headers: { Authorization: `Bearer ${accessToken}` },
-              timeout: 45000 // Extended to 45s for cold start
-            }),
-            new Promise((_, reject) => 
-              setTimeout(() => reject(new Error('Auth verification timeout')), 45000)
-            )
-          ]);
-
-          console.log('✅ Token valid, user authenticated');
-          setAuthState(prev => ({
-            ...prev,
-            user: response.data,
-            isAuthenticated: true,
-            isLoading: false,
-          }));
-        } catch (error) {
-          console.log('❌ Token invalid, clearing auth data');
-          await clearAuthData();
-        }
-      } else {
-        console.log('📭 No tokens found, user needs to login');
-        setAuthState(prev => ({
-          ...prev,
-          isLoading: false,
-          isAuthenticated: false,
-        }));
-      }
-    } catch (error) {
-      console.error('💥 Auth initialization error:', error);
-      // CRITICAL: Always ensure loading is false
-      setAuthState({
-        user: null,
-        isAuthenticated: false,
-        isLoading: false, // FORCE COMPLETE
-        accessToken: null,
-        refreshToken: null,
+        forceLogoutFlag: 0,
       });
     }
   };
@@ -302,6 +286,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isLoading: false,
         accessToken: access_token,
         refreshToken: refresh_token,
+        forceLogoutFlag: 0,
       });
     } catch (error: any) {
       setAuthState(prev => ({ ...prev, isLoading: false }));
@@ -337,6 +322,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isLoading: false,
         accessToken: access_token,
         refreshToken: refresh_token,
+        forceLogoutFlag: 0,
       });
     } catch (error: any) {
       setAuthState(prev => ({ ...prev, isLoading: false }));
