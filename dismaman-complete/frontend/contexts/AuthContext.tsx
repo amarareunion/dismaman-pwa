@@ -4,6 +4,25 @@ import axios from 'axios';
 import BackendKeepAlive from '../services/BackendKeepAlive';
 
 const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL || 'https://dismaman-app-1.preview.emergentagent.com';
+
+// Add timeout for web
+const api = axios.create({
+  baseURL: BACKEND_URL + '/api',
+  timeout: 5000,  // 5 secondes max
+});
+
+// Add error handling for web initialization
+const initializeAuth = async () => {
+  try {
+    setIsLoading(true);
+    // ... existing code ...
+  } catch (error) {
+    console.warn('Auth initialization failed:', error);
+    setIsLoading(false);  // IMPORTANT: Stop loading even on error
+    setUser(null);
+    setIsAuthenticated(false);
+  }
+};
 console.log('🌐 Backend URL configuré:', BACKEND_URL);
 
 interface User {
